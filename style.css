@@ -1052,3 +1052,6 @@ img { -webkit-user-drag: none; user-drag: none; }
 }
 .year-heading::after { content: ''; flex: 1; border-top: 2px dotted var(--pink-200); }
 .year-heading:first-child { margin-top: 0; }
+
+/* Contact: the greeting now sits under the title like the other tabs, so the links get their own top spacing */
+.contact-links-row { padding-top: 26px; }
