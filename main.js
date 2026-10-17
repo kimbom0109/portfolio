@@ -479,3 +479,359 @@ if (schoolGrid) {
     schoolGrid.appendChild(card);
   });
 }
+
+
+/* ── 10. Sound player (CD): small synthesized click sounds, off by default ──
+   Nothing is played until the visitor presses the button; volume is remembered. */
+(function () {
+  const disc = document.getElementById('cdDisc');
+  if (!disc) return;
+
+  let musicOn = false, sfxOn = true, vol = 0.5, ctx = null;   // effects always on; music starts when the CD is clicked
+
+  function blip(f1, f2, dur) {
+    if (!sfxOn || vol <= 0) return;
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    const t = ctx.currentTime, osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(f1, t);
+    osc.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.0002, vol * 0.25), t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(g).connect(ctx.destination);
+    osc.start(t); osc.stop(t + dur + 0.02);
+  }
+
+  /* "tang": a short gunshot-like crack (filtered noise burst) with a low thump */
+  let noiseBuf = null;
+  function pew() {
+    if (!sfxOn || vol <= 0) return;
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    const t = ctx.currentTime, peak = Math.max(0.0002, vol * 0.5);
+    if (!noiseBuf) {
+      noiseBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.25), ctx.sampleRate);
+      const d = noiseBuf.getChannelData(0);
+      for (let k = 0; k < d.length; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / d.length, 2);
+    }
+    const n = ctx.createBufferSource(), lp = ctx.createBiquadFilter(), ng = ctx.createGain();
+    n.buffer = noiseBuf;
+    lp.type = 'lowpass';
+    lp.frequency.setValueAtTime(7000, t);
+    lp.frequency.exponentialRampToValueAtTime(700, t + 0.18);
+    ng.gain.setValueAtTime(peak, t);
+    ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+    n.connect(lp).connect(ng).connect(ctx.destination);
+    n.start(t);
+    const o = ctx.createOscillator(), og = ctx.createGain();       // body of the shot
+    o.type = 'sine';
+    o.frequency.setValueAtTime(230, t);
+    o.frequency.exponentialRampToValueAtTime(55, t + 0.12);
+    og.gain.setValueAtTime(peak * 0.9, t);
+    og.gain.exponentialRampToValueAtTime(0.0001, t + 0.15);
+    o.connect(og).connect(ctx.destination);
+    o.start(t); o.stop(t + 0.17);
+  }
+
+  /* glass-break for the easter egg: a burst of bright noise plus falling tinkles */
+  function glass() {
+    if (!sfxOn || vol <= 0) return;
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    const t = ctx.currentTime, peak = Math.max(0.0002, vol * 0.5);
+    const len = Math.floor(ctx.sampleRate * 0.9), buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    for (let k = 0; k < len; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / len, 3);
+    const n = ctx.createBufferSource(), hp = ctx.createBiquadFilter(), g = ctx.createGain();
+    n.buffer = buf; hp.type = 'highpass'; hp.frequency.value = 2500;
+    g.gain.setValueAtTime(peak, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
+    n.connect(hp).connect(g).connect(ctx.destination); n.start(t);
+    for (let i = 0; i < 9; i++) {
+      const o = ctx.createOscillator(), og = ctx.createGain(), st = t + 0.05 + i * 0.07 + Math.random() * 0.05;
+      o.type = 'sine'; o.frequency.value = 2200 + Math.random() * 3800;
+      og.gain.setValueAtTime(0.0001, st); og.gain.exponentialRampToValueAtTime(peak * 0.25, st + 0.005);
+      og.gain.exponentialRampToValueAtTime(0.0001, st + 0.12);
+      o.connect(og).connect(ctx.destination); o.start(st); o.stop(st + 0.14);
+    }
+  }
+  document.addEventListener('bm-shatter', glass);
+
+  /* "jeo-jeo-jeok": a quick run of tiny ticks while the glass cracks */
+  function crackling() {
+    if (!sfxOn || vol <= 0) return;
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    const t = ctx.currentTime, peak = Math.max(0.0002, vol * 0.3);
+    for (let i = 0; i < 16; i++) {
+      const st = t + i * 0.06 + Math.random() * 0.03;
+      const len = Math.floor(ctx.sampleRate * 0.03), buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+      for (let k = 0; k < len; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / len, 2);
+      const n = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+      n.buffer = buf; bp.type = 'bandpass'; bp.frequency.value = 2500 + Math.random() * 3500; bp.Q.value = 1.2;
+      g.gain.value = peak * (0.4 + i / 16);
+      n.connect(bp).connect(g).connect(ctx.destination); n.start(st);
+    }
+  }
+  document.addEventListener('bm-cracking', crackling);
+
+  function render() {
+    disc.setAttribute('aria-pressed', musicOn);
+    disc.setAttribute('aria-label', musicOn ? '음악 멈추기' : '음악 재생');
+    disc.classList.toggle('is-spinning', musicOn);
+  }
+
+  /* background music: official YouTube player (hidden), controlled by the CD.
+     After the screen shatters (dark theme) the player switches to a second track;
+     going back to the light theme returns to the first one, paused. */
+  const TRACKS = {
+    light: { id: 'rePFEUu7YZs', title: 'テロル - Neru' },
+    dark: { id: 'w2HuQ95Huxw', title: '魔法少女ノ魔女裁判' }
+  };
+  const trackEl = document.querySelector('.cd-track');
+  let current = TRACKS.light;
+  let yt = null, ytReady = false, ytWanted = false, ytLoading = false;
+  function ytApply() {
+    if (!ytReady) return;
+    yt.setVolume(100);
+    if (ytWanted) yt.playVideo(); else yt.pauseVideo();
+  }
+  function ytLoad() {
+    if (ytLoading) return;
+    ytLoading = true;
+    window.onYouTubeIframeAPIReady = () => {
+      yt = new YT.Player('ytHost', {
+        videoId: current.id,
+        playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0 },
+        events: {
+          onReady: () => {
+            ytReady = true;
+            if (ytWanted) yt.loadVideoById(current.id); else yt.cueVideoById(current.id);
+            ytApply();
+          },
+          onStateChange: (e) => { if (e.data === 0 && ytWanted) yt.playVideo(); }   // loop
+        }
+      });
+    };
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+
+  function setTrack(track, play) {
+    current = track;
+    if (trackEl) trackEl.textContent = track.title;
+    musicOn = play; ytWanted = play; render();
+    if (play) ytLoad();
+    if (ytReady) {
+      if (play) yt.loadVideoById(track.id); else { yt.cueVideoById(track.id); yt.pauseVideo(); }
+      yt.setVolume(100);
+    }
+  }
+  document.addEventListener('bm-theme', (e) => {
+    if (e.detail && e.detail.dark) setTrack(TRACKS.dark, true);
+    else setTrack(TRACKS.light, false);
+  });
+
+  function toggleMusic() {
+    musicOn = !musicOn; render();
+    ytWanted = musicOn;
+    if (musicOn) ytLoad();
+    ytApply();
+  }
+  disc.addEventListener('click', toggleMusic);
+  disc.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMusic(); }
+  });
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#cdDisc')) return;
+    pew();
+  });
+})();
+
+
+/* ── 11. Crosshair shots: bullet-hole cracks, worse when you keep hitting the same spot,
+   and an easter egg: too many shots shatters the whole page into a dark theme.
+   Click once more (or reload) to restore. ── */
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const layer = document.createElementNS(NS, 'svg');
+  layer.setAttribute('class', 'crack-layer');
+  layer.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(layer);
+
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const f = (n) => n.toFixed(1);
+  const mk = (tag, attrs) => {
+    const el = document.createElementNS(NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  };
+
+  /* one tapered crack ray: thick at the hole, thin at the tip, with a slight bend */
+  function ray(x, y, ang, len, w0) {
+    const m = 3, left = [], right = [];
+    let cx = x, cy = y, a = ang;
+    for (let i = 0; i <= m; i++) {
+      const w = w0 * (1 - i / (m + 0.4));
+      const nx = -Math.sin(a), ny = Math.cos(a);
+      left.push(f(cx + nx * w) + ' ' + f(cy + ny * w));
+      right.push(f(cx - nx * w) + ' ' + f(cy - ny * w));
+      a += rnd(-0.28, 0.28);
+      cx += Math.cos(a) * len / m; cy += Math.sin(a) * len / m;
+    }
+    return 'M' + left.join('L') + 'L' + f(cx) + ' ' + f(cy) + 'L' + right.reverse().join('L') + 'Z';
+  }
+
+  function holeShape(x, y, r) {
+    const n = 9, pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * 6.283, rr = r * rnd(0.55, 1.25);
+      pts.push(f(x + Math.cos(a) * rr) + ' ' + f(y + Math.sin(a) * rr));
+    }
+    return 'M' + pts.join('L') + 'Z';
+  }
+
+  /* a long thin crack with small bends */
+  function crackLine(x, y, ang, len) {
+    let cx = x, cy = y, a = ang, d = 'M' + f(cx) + ' ' + f(cy), done = 0;
+    while (done < len) {
+      const step = rnd(len * 0.18, len * 0.34);
+      a += rnd(-0.14, 0.14);
+      cx += Math.cos(a) * step; cy += Math.sin(a) * step; done += step;
+      d += 'L' + f(cx) + ' ' + f(cy);
+    }
+    return d;
+  }
+
+  /* an irregular ring of straight segments, like the web of cracks around a bullet hole */
+  function webRing(x, y, r, gapChance) {
+    const n = 11 + Math.floor(rnd(0, 4)), pts = [];
+    const off = rnd(0, 6.28);
+    for (let i = 0; i <= n; i++) {
+      const a = off + (i / n) * 6.283, rr = r * rnd(0.86, 1.14);
+      pts.push([x + Math.cos(a) * rr, y + Math.sin(a) * rr]);
+    }
+    let d = '';
+    for (let i = 0; i < n; i++) {
+      if (Math.random() < gapChance) continue;
+      d += 'M' + f(pts[i][0]) + ' ' + f(pts[i][1]) + 'L' + f(pts[i + 1][0]) + ' ' + f(pts[i + 1][1]);
+    }
+    return d;
+  }
+
+  /* a bullet hole in the style of shattered glass: dark chip, bright slivers around it,
+     a few long thin cracks and a broken web ring. `stage` makes it worse. */
+  function bulletHole(parent, x, y, stage) {
+    const s = 0.55 + stage * 0.3;
+    const g = mk('g', { class: 'hole' });
+    const line = (d, cls) => g.appendChild(mk('path', { d, class: cls }));
+    const nl = Math.min(10, 4 + Math.floor(stage * 1.5)), off = rnd(0, 6.28);
+    for (let i = 0; i < nl; i++) {
+      const d = crackLine(x, y, off + (i / nl) * 6.283 + rnd(-0.2, 0.2), rnd(34, 78) * s * (i % 3 === 0 ? 1.35 : 1));
+      line(d, 'g-long-hi');
+      line(d, 'g-long');
+    }
+    line(webRing(x, y, rnd(24, 30) * s, 0.12), 'g-ring-hi');
+    line(webRing(x, y, rnd(24, 30) * s, 0.12), 'g-ring');
+    if (stage >= 1) { const d = webRing(x, y, rnd(44, 56) * s, 0.3); line(d, 'g-ring-hi'); line(d, 'g-ring'); }
+    if (stage >= 3) { const d = webRing(x, y, rnd(68, 82) * s, 0.45); line(d, 'g-ring-hi'); line(d, 'g-ring'); }
+    const ns = 8 + stage * 3;
+    for (let i = 0; i < ns; i++) {
+      const len = rnd(6, 20) * s * (Math.random() < 0.25 ? 1.7 : 1);
+      line(ray(x, y, off + (i / ns) * 6.283 + rnd(-0.12, 0.12), len, rnd(0.7, 1.5)), 'g-spike');
+    }
+    line(holeShape(x, y, 4.6 * (1 + stage * 0.2)), 'g-hole');
+    parent.appendChild(g);
+    return g;
+  }
+
+  /* ── shots ── */
+  const shots = [];
+  let busy = false;
+
+  function shoot(x, y) {
+    const now = performance.now();
+    shots.push({ t: now, x, y });
+    while (shots.length && now - shots[0].t > 6000) shots.shift();
+    const near = shots.filter((s) => now - s.t < 3500 && Math.hypot(s.x - x, s.y - y) < 70).length;
+    const stage = Math.min(4, near - 1);
+    const dur = 1.25 + stage * 0.4;
+    const g = mk('g', { class: 'crack', style: 'transform-origin:' + f(x) + 'px ' + f(y) + 'px;--d:' + dur + 's;--o:' + (0.4 + stage * 0.15).toFixed(2) });
+    bulletHole(g, x, y, stage, false);
+    layer.appendChild(g);
+    setTimeout(() => g.remove(), dur * 1000 + 200);
+    // only hammering the same spot breaks the whole screen
+    const same = shots.filter((s) => Math.hypot(s.x - x, s.y - y) < 70).length;
+    if (same >= 10) shatter(x, y);
+  }
+
+  /* ── easter egg: glass cracks across the whole screen, shatters, and the theme flips ──
+     Light -> dark. Break it again (many shots) and it flips back; reloading also resets it. */
+  function longCrack(x, y, ang, len, w) {
+    let cx = x, cy = y, a = ang, d = 'M' + f(cx) + ' ' + f(cy), done = 0;
+    const kids = [];
+    while (done < len) {
+      const step = rnd(26, 60);
+      a += rnd(-0.22, 0.22);
+      cx += Math.cos(a) * step; cy += Math.sin(a) * step; done += step;
+      d += 'L' + f(cx) + ' ' + f(cy);
+      if (Math.random() < 0.22 && len - done > 80) kids.push([cx, cy, a + (Math.random() < 0.5 ? 1 : -1) * rnd(0.5, 0.9), (len - done) * rnd(0.3, 0.55)]);
+    }
+    return { d, w, kids };
+  }
+
+  function shatter(x, y) {
+    if (busy) return;
+    busy = true;
+    shots.length = 0;
+    document.dispatchEvent(new CustomEvent('bm-cracking'));
+    const big = mk('svg', { class: 'crack-big', 'aria-hidden': 'true' });
+    document.body.appendChild(big);
+    const reach = Math.min(220, Math.min(innerWidth, innerHeight) * 0.3);   // only a patch of the screen cracks
+    const list = [];
+    const n = 11, off = rnd(0, 6.28);
+    for (let i = 0; i < n; i++) {
+      const c = longCrack(x, y, off + (i / n) * 6.283 + rnd(-0.15, 0.15), reach * rnd(0.6, 1.05), 1);
+      list.push(c);
+      c.kids.forEach(([kx, ky, ka, kl]) => list.push(longCrack(kx, ky, ka, kl, 0.6)));
+    }
+    list.forEach((c, i) => {
+      ['crack-big-halo', 'crack-big-line'].forEach((cls) => {
+        const p = mk('path', { d: c.d, class: cls, pathLength: '1' });
+        p.style.strokeWidth = (cls === 'crack-big-halo' ? 3.2 : 1.4) * c.w + 'px';
+        p.style.animationDelay = (i % n) * 18 + 'ms';
+        big.appendChild(p);
+      });
+    });
+    [40, 90, 150, 220].forEach((r, k) => {
+      if (r > reach) return;
+      const d = webRing(x, y, r, 0.25);
+      ['crack-big-halo', 'crack-big-line'].forEach((cls) => {
+        const p = mk('path', { d, class: cls, pathLength: '1' });
+        p.style.strokeWidth = (cls === 'crack-big-halo' ? 3.2 : 1.4) + 'px';
+        p.style.animationDelay = (180 + k * 150) + 'ms';
+        big.appendChild(p);
+      });
+    });
+    const ring = mk('circle', { cx: f(x), cy: f(y), r: 5, class: 'crack-big-hole' });
+    big.appendChild(ring);
+    setTimeout(() => {
+      big.remove();
+      layer.textContent = '';                       // no cracks left behind once it has shattered
+      const flash = document.createElement('div');
+      flash.className = 'glass-flash';
+      document.body.appendChild(flash);
+      const dark = document.documentElement.classList.toggle('shattered');
+      document.dispatchEvent(new CustomEvent('bm-theme', { detail: { dark } }));
+      document.documentElement.classList.add('shattering');
+      document.dispatchEvent(new CustomEvent('bm-shatter'));
+      setTimeout(() => { flash.remove(); document.documentElement.classList.remove('shattering'); busy = false; }, 420);
+    }, 1050);
+  }
+
+  document.addEventListener('click', (e) => {
+    if (busy) return;
+    shoot(e.clientX, e.clientY);
+  });
+})();
