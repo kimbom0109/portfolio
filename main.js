@@ -297,16 +297,18 @@ function setupWindow(win) {
 document.querySelectorAll('.win, .project-card, .skill-block, .contact-simple, .modal-box')
   .forEach(setupWindow);
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') unmax();
+/* windows with data-href act as a link to another site (opens in a new tab once an address is set) */
+document.querySelectorAll('.win[data-href]').forEach(win => {
+  const url = () => win.dataset.href;
+  const go = () => { if (url()) window.open(url(), '_blank', 'noopener'); };
+  const body = win.querySelector('.win-body');
+  if (url() && body) { body.tabIndex = 0; body.setAttribute('role', 'link'); }
+  win.addEventListener('click', (e) => { if (!e.target.closest('.win-bar')) go(); });
+  if (body) body.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
 });
 
-/* status bar ("done" / "internet zone") on the main windows and modals */
-document.querySelectorAll('.win, .modal-box').forEach(win => {
-  const bar = document.createElement('div');
-  bar.className = 'win-status';
-  bar.innerHTML = '<span>done</span><span>internet zone</span>';
-  win.appendChild(bar);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') unmax();
 });
 
 const navClock = document.getElementById('navClock');
@@ -381,3 +383,24 @@ document.addEventListener('keydown', (e) => {
     document.querySelectorAll('.modal-overlay.open').forEach(o => closeModal(o.id));
   }
 });
+
+/* ── 8. Game tab: most advanced project first ──
+   Order comes from the status badge on each card, so a new game only needs the right badge:
+   released-badge (출시) > ongoing (개발 중) > game-badge (기획) > upcoming-badge (예정).
+   Cards with the same stage keep the order they have in the HTML. */
+const STAGE_RANK = [['released-badge', 4], ['ongoing', 3], ['game-badge', 2], ['upcoming-badge', 1]];
+
+function stageOf(card) {
+  const badge = card.querySelector('.project-status');
+  if (!badge) return 0;
+  for (const [cls, rank] of STAGE_RANK) if (badge.classList.contains(cls)) return rank;
+  return 0;
+}
+
+const gameGrid = document.querySelector('#view-game .projects-grid');
+if (gameGrid) {
+  [...gameGrid.querySelectorAll('.project-card')]
+    .map((card, i) => ({ card, i, rank: stageOf(card) }))
+    .sort((a, b) => b.rank - a.rank || a.i - b.i)
+    .forEach(({ card }) => gameGrid.appendChild(card));
+}

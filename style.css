@@ -23,9 +23,9 @@
   --pink-500:   #D68DA6;
   --pink-600:   #B96A86;
 
-  --blue-100:   #EBF2FB;
-  --blue-200:   #D2E2F5;
-  --blue-400:   #8FB3E0;
+  --blue-100:   #F1F4F8;
+  --blue-200:   #DDE4EC;
+  --blue-400:   #A9B8CA;
 
   --gray-100:   #F1F1F5;
   --gray-200:   #DFDFE7;
@@ -158,21 +158,6 @@ ul { list-style: none; }
   border-radius: 0;
 }
 
-/* status bar at the bottom of main windows */
-.win-status {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 2px 10px;
-  background: #FDF6F6;
-  border-top: 2px solid #F0E3E5;
-  box-shadow: inset 0 1px 0 var(--white);
-  font-family: var(--ff-pixel);
-  font-size: 12px;
-  color: var(--gray-500);
-  user-select: none;
-}
-
 .win-body { padding: 28px 30px 32px; }
 
 /* ─── Window controls ─── */
@@ -198,6 +183,8 @@ ul { list-style: none; }
 .wb[aria-pressed="true"] { background: var(--blue-100); border-color: var(--blue-400); }
 
 .is-min > :not(.win-bar) { display: none !important; }
+/* a folded window shrinks to its title bar even when the grid row is taller */
+.is-min { align-self: start !important; height: auto !important; }
 .is-closed { display: none !important; }
 
 /* maximized window: large, centred, on top of the blurred page */
@@ -228,9 +215,7 @@ ul { list-style: none; }
 .win-ph { visibility: hidden; }
 
 /* compact windows get a roomier layout when enlarged */
-.is-max.roeppi-win,
-.is-max.win-photo { width: min(560px, 100%) !important; }
-.is-max.win-photo .win-body { min-height: min(68vh, 640px); }
+.is-max.roeppi-win { width: min(560px, 100%) !important; }
 .is-max .roeppi-body { padding: 36px 40px 40px; }
 .is-max .roeppi-name { font-size: 36px; }
 .is-max .roeppi-desc { font-size: 16px; margin-top: 8px; }
@@ -439,26 +424,15 @@ ul { list-style: none; }
   max-width: 1080px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
   gap: 36px 40px;
   align-items: start;
 }
 
-.win-photo { grid-column: 1; grid-row: 1; align-self: stretch; display: flex; flex-direction: column; }
-.win-hero  { grid-column: 2; grid-row: 1; align-self: stretch; }
+.topbar-win { grid-column: 1; grid-row: 1; }
+.win-hero  { grid-column: 1; grid-row: 2; }
 
-/* photo fills whatever height the welcome window sets */
-.win-photo .win-body { position: relative; flex: 1; min-height: 300px; padding: 0; }
-.win-photo img {
-  position: absolute;
-  inset: 14px;
-  width: calc(100% - 28px);
-  height: calc(100% - 28px);
-  max-width: none;
-  object-fit: cover;
-  object-position: 50% 14%;
-  border: 2px solid var(--gray-200);
-}
 
 
 .sparkle {
@@ -491,9 +465,9 @@ ul { list-style: none; }
 
 .name-ko {
   font-family: var(--ff-pixel);
-  font-size: 72px;
+  font-size: 48px;
   font-weight: 400;
-  color: var(--ink);
+  color: #77727F;
   letter-spacing: 0.02em;
 }
 
@@ -596,7 +570,7 @@ ul { list-style: none; }
   border: 1.5px solid transparent;
 }
 .project-status.ongoing        { background: var(--pink-100); color: var(--pink-600); border-color: var(--pink-200); }
-.project-status.activity-badge { background: var(--blue-100); color: #5B82B5; border-color: var(--blue-200); }
+.project-status.activity-badge { background: var(--blue-100); color: #75869C; border-color: var(--blue-200); }
 .project-status.game-badge     { background: var(--gray-100); color: var(--gray-500); border-color: var(--gray-200); }
 .project-status.released-badge { background: var(--pink-500); color: var(--white); }
 .project-status.upcoming-badge { background: var(--white); color: var(--gray-500); border-color: var(--gray-300); border-style: dashed; }
@@ -755,11 +729,11 @@ ul { list-style: none; }
 /* ══════════════════════════════════
    SKILLS
 ══════════════════════════════════ */
-.skills-bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.skills-bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 
 .skill-block { transition: var(--transition); }
 .skill-block:hover { transform: translate(-2px, -3px); box-shadow: var(--win-shadow-hover); }
-.skill-block.large { background: var(--pink-100); }
+.skill-block.large { background: #FFFDFD; }
 .skill-block.wide { grid-column: span 3; background: var(--blue-100); }
 
 .skill-block-inner { padding: 22px 24px 26px; }
@@ -789,7 +763,7 @@ ul { list-style: none; }
 ══════════════════════════════════ */
 .contact-section { padding: 40px 0 64px; }
 
-.contact-simple { max-width: 720px; margin: 0 auto; text-align: center; background: var(--pink-100); }
+.contact-simple { max-width: 720px; margin: 0 auto; text-align: center; background: #FFFAFB; }
 
 .contact-simple > *:not(.win-bar) { margin-left: 24px; margin-right: 24px; }
 .contact-simple-top { margin-top: 28px; margin-bottom: 20px; }
@@ -860,9 +834,7 @@ ul { list-style: none; }
 ══════════════════════════════════ */
 @media (max-width: 900px) {
   .desktop-grid { grid-template-columns: 1fr; }
-  .win-hero, .win-photo { grid-column: 1; grid-row: auto; }
-  .win-photo .win-body { min-height: 380px; }
-
+  .win-hero,   
   .skills-bento { grid-template-columns: 1fr 1fr; }
   .skill-block.large, .skill-block.wide { grid-column: span 2; }
 }
@@ -901,14 +873,43 @@ ul { list-style: none; }
 
 
 /* ─── About me view ─── */
-.about + .skills-section { padding-top: 24px; }
+/* the first block of a tab normally fills the screen; the About window should not leave a big gap */
+#view-about > .section.about:first-child { min-height: 0; padding-bottom: 8px; }
+.about + .skills-section { padding-top: 56px; }
+.skills-section .section-title { margin-bottom: 32px; }
 
 
 /* ─── Roeppi Studio window (game tab, beside the intro) ─── */
 .view-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; margin-bottom: 56px; }
 .view-head .view-intro { margin-bottom: 0; }
 .view-head .section-title { margin-bottom: 32px; }
-.roeppi-win { width: 300px; max-width: 100%; background: var(--pink-100); }
+.roeppi-win { width: 300px; max-width: 100%; background: #FFFAFB; }
 .roeppi-body { padding: 16px 20px 18px; }
 .roeppi-name { font-family: var(--ff-pixel); font-size: 16px; font-weight: 400; color: var(--ink); line-height: 1.4; }
 .roeppi-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.6; margin-top: 2px; }
+
+
+/* ─── Wide banner photo (home, top centre) ─── */
+.banner-slot { aspect-ratio: 3 / 1; background: var(--pink-100); }
+.banner-img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+
+/* Roeppi window: clickable once data-href holds an address */
+.roeppi-go { display: none; font-family: var(--ff-pixel); font-size: 12px; color: var(--pink-600); margin-top: 8px; }
+.roeppi-win[data-href]:not([data-href=""]) .roeppi-go { display: block; }
+.roeppi-win[data-href]:not([data-href=""]) { cursor: pointer; transition: background 0.15s; }
+.roeppi-win[data-href]:not([data-href=""]):hover { background: #FFF9FA; }
+
+/* Roeppi + Contact + Tools windows: almost white, with a very faint pink frame */
+.roeppi-win,
+.contact-simple,
+.skill-block.wide {
+  background: #FFFDFD;
+  border-color: #F1E6E8;
+  box-shadow: inset 2px 2px 0 var(--white), inset -2px -2px 0 #F8F2F3, 3px 3px 0 #FBF1F3;
+}
+.roeppi-win .win-bar,
+.contact-simple .win-bar,
+.skill-block.wide .win-bar { background: #FDF5F6; border-bottom-color: #F1E6E8; }
+.roeppi-win .wb,
+.contact-simple .wb,
+.skill-block.wide .wb { background: #FFFAFB; }

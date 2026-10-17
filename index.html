@@ -52,6 +52,11 @@
   <section id="hero" class="desktop">
     <div class="desktop-grid">
 
+      <article class="win topbar-win reveal">
+        <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">banner.jpg</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
+        <div class="banner-slot"><!-- 가로로 긴 사진: <img class="banner-img" src="..." alt="..."> 로 교체 --></div>
+      </article>
+
       <article class="win win-hero reveal">
         <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">welcome.exe</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
         <div class="win-body">
@@ -68,12 +73,6 @@
         </div>
       </article>
 
-      <figure class="win win-photo reveal">
-        <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">profile.jpg</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
-        <div class="win-body">
-          <img src="avatar.jpg" alt="김보민 프로필 사진" />
-        </div>
-      </figure>
 
     </div>
   </section>
@@ -286,11 +285,12 @@
             <h2 class="section-title reveal">게임 <em>활동</em></h2>
             <p class="view-intro reveal">직접 기획하고 만든 게임들, 그리고 구상 중인 다음 이야기.</p>
           </div>
-          <article class="win roeppi-win is-min reveal">
+          <article class="win roeppi-win reveal" data-href="https://roeppistudio.com">
             <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">roeppi_studio.exe</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
             <div class="win-body roeppi-body">
               <h3 class="roeppi-name">Roeppi Studio</h3>
               <p class="roeppi-desc">함께 만든 게임을 소개하는 스튜디오.</p>
+              <p class="roeppi-go">사이트로 이동 →</p>
             </div>
           </article>
         </div>
@@ -299,6 +299,8 @@
           <button class="filter-btn" data-filter="game">진행 중</button>
           <button class="filter-btn" data-filter="upcoming">예정</button>
         </div>
+        <!-- 새 게임은 카드를 아무 위치에나 추가하세요. 상태 뱃지(출시 / 개발 중 / 기획 / 예정)에 따라
+             진척도가 높은 순서로 자동 정렬됩니다 (main.js 8번). -->
         <div class="projects-grid">
         <article class="project-card reveal" data-category="game" data-modal-id="modal-g1">
           <div class="project-card-header">
@@ -387,7 +389,7 @@
   <section id="contact" class="contact-section section">
     <div class="container">
       <div class="section-label reveal">Contact</div>
-      <h2 class="section-title reveal">연락 <em>하기</em></h2>
+      <h2 class="section-title reveal">연락<em>하기</em></h2>
       <div class="contact-simple reveal">
         <div class="contact-simple-top">
           <p class="contact-greeting">함께 만들어가고 싶은 게 있다면, 편하게 연락주세요.</p>
