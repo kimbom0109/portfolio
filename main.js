@@ -45,7 +45,7 @@ revealEls.forEach(el => revealObserver.observe(el));
 
 /* ── 3. Project Filter ── */
 const filterBtns = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
+const projectCards = document.querySelectorAll('#view-game .project-card');
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -103,29 +103,233 @@ document.querySelectorAll('.mobile-link').forEach(link => {
   });
 });
 
-/* ── 5. Smooth Active Nav Link Highlight ── */
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
+/* ── 5. Tab Views (hash routing: #/ · #/school · #/game) ── */
+const dock = document.createElement('div');
+dock.className = 'dock';
+dock.hidden = true;
+dock.setAttribute('aria-label', '닫은 창');
+document.body.appendChild(dock);
 
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => {
-        link.style.color = '';
-        if (link.getAttribute('href') === '#' + entry.target.id) {
-          link.style.color = 'var(--ink-900)';
-        }
-      });
+function updateDock() {
+  let any = false;
+  dock.querySelectorAll('.dock-chip').forEach(chip => {
+    const show = chip.dataset.view === 'all' || chip.dataset.view === currentView;
+    chip.hidden = !show;
+    if (show) any = true;
+  });
+  dock.hidden = !any;
+}
+
+const VIEWS = ['home', 'about', 'school', 'game', 'contact'];
+const viewEls = document.querySelectorAll('.view');
+const viewLinks = document.querySelectorAll('[data-view-link]');
+let currentView = 'home';
+
+function showView(name) {
+  if (name === currentView) return;
+  currentView = name;
+  viewEls.forEach(v => v.classList.toggle('active', v.dataset.view === name));
+  viewLinks.forEach(l => l.classList.toggle('active', l.dataset.viewLink === name));
+  updateDock();
+  window.scrollTo(0, 0);
+}
+
+function route() {
+  const h = location.hash;
+  if (h.startsWith('#/')) {
+    const name = h.slice(2);
+    showView(VIEWS.includes(name) ? name : 'home');
+  }
+}
+
+window.addEventListener('hashchange', route);
+viewLinks.forEach(l => l.classList.toggle('active', l.dataset.viewLink === currentView));
+route();
+
+/* ── 5b. Window chrome (title bars) & menu-bar clock ── */
+function makeWinBar(title) {
+  const bar = document.createElement('div');
+  bar.className = 'win-bar';
+  bar.innerHTML = '<span class="win-dots"><i></i><i></i><i></i></span>' +
+                  '<span class="win-title"></span><span class="win-btns"></span>';
+  bar.querySelector('.win-title').textContent = title;
+  return bar;
+}
+
+document.querySelectorAll('.project-card').forEach(card => {
+  const t = card.querySelector('.project-title').textContent.trim();
+  const bar = makeWinBar(t + '.exe');
+  bar.querySelector('.win-btns').innerHTML = '<b>–</b><b>□</b><b>×</b>';
+  card.prepend(bar);
+});
+
+document.querySelectorAll('.skill-block').forEach(block => {
+  const t = block.querySelector('h3').textContent.trim();
+  const bar = makeWinBar(t + '.exe');
+  bar.querySelector('.win-btns').innerHTML = '<b>–</b><b>□</b><b>×</b>';
+  block.prepend(bar);
+});
+
+const contactWin = document.querySelector('.contact-simple');
+if (contactWin) {
+  const bar = makeWinBar('contact.txt');
+  bar.querySelector('.win-btns').innerHTML = '<b>–</b><b>□</b><b>×</b>';
+  contactWin.prepend(bar);
+}
+
+document.querySelectorAll('.modal-box').forEach(box => {
+  const bar = makeWinBar(box.querySelector('.modal-title').textContent.trim());
+  const close = box.querySelector('.modal-close');
+  if (close) bar.querySelector('.win-btns').appendChild(close);
+  box.prepend(bar);
+});
+
+/* ── 5c. Interactive windows: minimize · maximize · close ── */
+let maxed = null;   // { win, ph, layer, wasMin }
+
+function mkBtn(label, aria, cls) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = cls;
+  b.textContent = label;
+  b.setAttribute('aria-label', aria);
+  return b;
+}
+
+/* "maximize" = show the window large in the centre of the screen (like the project popups).
+   The window is moved into a fixed layer on <body> so the blurred backdrop can never cover it. */
+function unmax() {
+  if (!maxed) return;
+  const { win, ph, layer, wasMin } = maxed;
+  win.classList.remove('is-max');
+  if (wasMin) win.classList.add('is-min');
+  const minBtn = win.querySelector('.wb-min');
+  if (minBtn) minBtn.setAttribute('aria-pressed', wasMin);
+  ph.replaceWith(win);
+  layer.remove();
+  maxed = null;
+}
+
+function toggleMax(win) {
+  if (maxed && maxed.win === win) { unmax(); return; }
+  unmax();
+  const wasMin = win.classList.contains('is-min');
+  const slotHeight = win.offsetHeight;      // measured before expanding, so a folded window leaves a folded-size slot
+  const ph = win.cloneNode(false);          // keeps the grid/flow slot while the window is away
+  ph.removeAttribute('id');
+  ph.className = win.className + ' win-ph';
+  ph.style.height = slotHeight + 'px';
+  win.classList.remove('is-min');
+  const openMinBtn = win.querySelector('.wb-min');
+  if (openMinBtn) openMinBtn.setAttribute('aria-pressed', 'false');
+  ph.setAttribute('aria-hidden', 'true');
+  win.before(ph);
+  const layer = document.createElement('div');
+  layer.className = 'max-layer';
+  layer.addEventListener('click', (e) => { if (e.target === layer) unmax(); });
+  layer.appendChild(win);
+  document.body.appendChild(layer);
+  win.classList.add('is-max');
+  maxed = { win, ph, layer, wasMin };
+}
+
+function closeWin(win, title) {
+  if (maxed && maxed.win === win) unmax();
+  win.classList.add('is-closed');
+  const v = win.closest('.view');
+  const chip = document.createElement('button');
+  chip.type = 'button';
+  chip.className = 'dock-chip';
+  chip.textContent = title;
+  chip.dataset.view = v ? v.dataset.view : 'all';
+  chip.addEventListener('click', () => {
+    win.classList.remove('is-closed', 'is-min');
+    chip.remove();
+    updateDock();
+  });
+  dock.appendChild(chip);
+  updateDock();
+}
+
+function setupWindow(win) {
+  const bar = win.querySelector(':scope > .win-bar');
+  if (!bar) return;
+  const btns = bar.querySelector('.win-btns');
+  const title = bar.querySelector('.win-title').textContent;
+  const isModal = win.classList.contains('modal-box');
+  const isCard = win.classList.contains('project-card');
+  const modalClose = btns.querySelector('.modal-close');
+
+  btns.innerHTML = '';
+  const min = mkBtn('–', '최소화', 'wb wb-min');
+  const max = mkBtn('□', '최대화', 'wb wb-max');
+  btns.append(min, max);
+  if (modalClose) {
+    btns.appendChild(modalClose);
+  } else {
+    const close = mkBtn('×', '닫기', 'wb wb-close');
+    close.addEventListener('click', (e) => { e.stopPropagation(); closeWin(win, title); });
+    btns.appendChild(close);
+  }
+
+  min.setAttribute('aria-pressed', win.classList.contains('is-min'));
+
+  min.addEventListener('click', (e) => {
+    e.stopPropagation();
+    min.setAttribute('aria-pressed', win.classList.toggle('is-min'));
+  });
+
+  max.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (isModal) {
+      max.setAttribute('aria-pressed', win.classList.toggle('is-wide'));
+    } else if (isCard) {
+      openModal(win.dataset.modalId);
+    } else {
+      toggleMax(win);
     }
   });
-}, { threshold: 0.4 });
 
-sections.forEach(s => sectionObserver.observe(s));
+  bar.addEventListener('dblclick', () => min.click());
+  if (isCard) bar.addEventListener('click', (e) => e.stopPropagation());
+}
+
+document.querySelectorAll('.win, .project-card, .skill-block, .contact-simple, .modal-box')
+  .forEach(setupWindow);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') unmax();
+});
+
+/* status bar ("done" / "internet zone") on the main windows and modals */
+document.querySelectorAll('.win, .modal-box').forEach(win => {
+  const bar = document.createElement('div');
+  bar.className = 'win-status';
+  bar.innerHTML = '<span>done</span><span>internet zone</span>';
+  win.appendChild(bar);
+});
+
+const navClock = document.getElementById('navClock');
+function tickClock() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  navClock.textContent = `${d.getMonth() + 1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+tickClock();
+setInterval(tickClock, 30000);
+
+document.getElementById('toTop').addEventListener('click', (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 /* ── 6. Project Modal ── */
+let lastFocused = null;
+
 function openModal(id) {
   const overlay = document.getElementById(id);
   if (!overlay) return;
+  lastFocused = document.activeElement;
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   // Focus the close button for accessibility
@@ -138,6 +342,7 @@ function closeModal(id) {
   if (!overlay) return;
   overlay.classList.remove('open');
   document.body.style.overflow = '';
+  if (lastFocused && lastFocused.focus) lastFocused.focus();
 }
 
 // Open via card "자세히 보기" button

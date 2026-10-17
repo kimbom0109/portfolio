@@ -4,10 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>김보민 | 기획자 & 디자이너</title>
-  <meta name="description" content="김보민의 포트폴리오 — 기획자, 디자이너. 아이디어를 현실로 만드는 사람." />
+  <meta name="description" content="김보민의 포트폴리오 — 기획자, 디자이너. 아이디어를 구조화하고, 경험을 설계합니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="김보민 | 기획자 & 디자이너" />
+  <meta property="og:description" content="아이디어를 구조화하고, 경험을 설계합니다." />
+  <meta property="og:image" content="hero_bg.png" />
+  <meta name="theme-color" content="#FCE7E6" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23FCE7E6'/%3E%3Cg fill='%23777777'%3E%3Crect x='3' y='4' width='3' height='2'/%3E%3Crect x='10' y='4' width='3' height='2'/%3E%3Crect x='2' y='5' width='12' height='4'/%3E%3Crect x='3' y='9' width='10' height='1'/%3E%3Crect x='4' y='10' width='8' height='1'/%3E%3Crect x='5' y='11' width='6' height='1'/%3E%3Crect x='7' y='12' width='2' height='1'/%3E%3C/g%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+KR:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,13 +21,15 @@
   <!-- ═══════════════════ NAV ═══════════════════ -->
   <nav id="navbar" class="navbar">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">BM</a>
+      <a href="#/" class="nav-logo">BM</a>
       <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#/" data-view-link="home">Home</a></li>
+        <li><a href="#/about" data-view-link="about">About me</a></li>
+        <li><a href="#/school" data-view-link="school">학교 활동</a></li>
+        <li><a href="#/game" data-view-link="game">게임 활동</a></li>
+        <li><a href="#/contact" data-view-link="contact">Contact</a></li>
       </ul>
+      <span class="nav-clock" id="navClock" aria-hidden="true"></span>
       <button class="nav-hamburger" id="hamburger" aria-label="메뉴 열기">
         <span></span><span></span><span></span>
       </button>
@@ -31,62 +39,66 @@
   <!-- ═══════════════════ MOBILE MENU ═══════════════════ -->
   <div class="mobile-menu" id="mobileMenu">
     <ul>
-      <li><a href="#about" class="mobile-link">About</a></li>
-      <li><a href="#projects" class="mobile-link">Projects</a></li>
-      <li><a href="#skills" class="mobile-link">Skills</a></li>
-      <li><a href="#contact" class="mobile-link">Contact</a></li>
+      <li><a href="#/" class="mobile-link" data-view-link="home">Home</a></li>
+      <li><a href="#/about" class="mobile-link" data-view-link="about">About me</a></li>
+      <li><a href="#/school" class="mobile-link" data-view-link="school">학교 활동</a></li>
+      <li><a href="#/game" class="mobile-link" data-view-link="game">게임 활동</a></li>
+      <li><a href="#/contact" class="mobile-link" data-view-link="contact">Contact</a></li>
     </ul>
   </div>
 
-  <!-- ═══════════════════ HERO ═══════════════════ -->
-  <section id="hero" class="hero">
-    <div class="hero-bg-image"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow reveal">Portfolio</div>
-      <h1 class="hero-name reveal">
-        <span class="name-ko">김보민</span>
-        <span class="name-en">Kim Bomin</span>
-      </h1>
-      <p class="hero-title reveal">기획자 &amp; 디자이너</p>
-      <p class="hero-desc reveal">
-        아이디어를 구조화하고, 경험을 설계합니다.<br />
-        <span class="hero-desc-en">Structuring ideas. Designing experiences.</span>
-      </p>
-      <div class="hero-cta reveal">
-        <a href="#projects" class="btn-primary">Projects 보기</a>
-        <a href="#contact" class="btn-ghost">연락하기</a>
-      </div>
-    </div>
-    <div class="hero-scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
+  <main class="view active" id="view-home" data-view="home">
+  <!-- ═══════════════════ HERO (desktop) ═══════════════════ -->
+  <section id="hero" class="desktop">
+    <div class="desktop-grid">
+
+      <article class="win win-hero reveal">
+        <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">welcome.exe</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
+        <div class="win-body">
+          <div class="hero-eyebrow">Portfolio</div>
+          <h1 class="hero-name">
+            <span class="name-ko">김보민</span>
+            <span class="name-real">Kim Bomin</span>
+          </h1>
+          <p class="hero-title">기획자 &amp; 디자이너</p>
+          <p class="hero-desc">
+            아이디어를 구조화하고, 경험을 설계합니다.<br />
+            <span class="hero-desc-en">Structuring ideas. Designing experiences.</span>
+          </p>
+        </div>
+      </article>
+
+      <figure class="win win-photo reveal">
+        <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">profile.jpg</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
+        <div class="win-body">
+          <img src="avatar.jpg" alt="김보민 프로필 사진" />
+        </div>
+      </figure>
+
     </div>
   </section>
 
-  <!-- ═══════════════════ ABOUT ═══════════════════ -->
+
+  </main>
+
+  <!-- ═══════════════════ VIEW: About me ═══════════════════ -->
+  <main class="view" id="view-about" data-view="about">
   <section id="about" class="about section">
     <div class="container">
-      <div class="section-label reveal">About Me</div>
-      <div class="about-grid">
-        <div class="about-photo-wrap reveal">
-          <div class="about-photo-frame">
-            <img src="avatar.jpg" alt="김보민 프로필 사진" class="about-photo" />
-            <!-- 실제 사진으로 교체 가능 -->
-          </div>
-          <div class="about-photo-decoration"></div>
-        </div>
-        <div class="about-text-wrap">
-          <h2 class="section-title reveal">
+      <article class="win about-note reveal">
+        <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">about.txt</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
+        <div class="win-body">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">
             안녕하세요,<br />
-            <em>기획자이자 디자이너</em> 김보민입니다.
+            <em>기획자이자 디자이너</em>입니다.
           </h2>
-          <!-- ✏️ 아래 소개글을 자유롭게 수정하세요 -->
-          <p class="about-desc reveal">
+          <p class="about-desc">
             저는 아이디어의 흐름을 논리적으로 구조화하고,<br />
             그것을 시각적인 언어로 풀어내는 일을 합니다.<br />
             기획과 디자인의 경계에서 사용자 중심의 경험을 만들어갑니다.
           </p>
-          <div class="about-tags reveal">
+          <div class="about-tags">
             <span class="tag">UX 기획</span>
             <span class="tag">서비스 디자인</span>
             <span class="tag">프로덕트 씽킹</span>
@@ -94,210 +106,7 @@
             <span class="tag">비주얼 디자인</span>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════ PROJECTS ═══════════════════ -->
-  <section id="projects" class="projects section">
-    <div class="container">
-      <div class="section-label reveal">Work</div>
-      <h2 class="section-title reveal">Projects <em>&amp; Activities</em></h2>
-
-      <div class="project-filter reveal">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="activity">활동</button>
-        <button class="filter-btn" data-filter="game">게임 기획</button>
-        <button class="filter-btn" data-filter="upcoming">예정</button>
-      </div>
-
-      <div class="projects-grid">
-
-        <!-- ── 활동 1: SRC 멘토 (진행 중) ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a1">
-          <div class="project-card-header">
-            <span class="project-status ongoing">진행 중</span>
-            <span class="project-year">2025–</span>
-          </div>
-          <h3 class="project-title">SRC 멘토링</h3>
-          <p class="project-desc">신입생을 대상으로 개별·단체 멘토링 활동을 기획하고 운영 중.</p>
-          <div class="project-tags">
-            <span class="p-tag">멘토링</span><span class="p-tag">기획·운영</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a1">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 활동 2: SHC 드림멘토 (진행 중) ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a6">
-          <div class="project-card-header">
-            <span class="project-status ongoing">진행 중</span>
-            <span class="project-year">2025–</span>
-          </div>
-          <h3 class="project-title">SHC 드림멘토</h3>
-          <p class="project-desc">진로체험버스·오픈유니버시티를 운영하며 고등학생을 대상으로 학과 멘토링 진행 중.</p>
-          <div class="project-tags">
-            <span class="p-tag">진로 멘토링</span><span class="p-tag">진로체험버스</span><span class="p-tag">오픈유니버시티</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a6">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 활동 7: 햄부기 동아리 (진행 중) ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a7">
-          <div class="project-card-header">
-            <span class="project-status ongoing">진행 중</span>
-            <span class="project-year">2026–</span>
-          </div>
-          <h3 class="project-title">HMBG 햄부기 게임개발동아리</h3>
-          <p class="project-desc">학과 게임개발동아리 운영진(Club President). 실제 출시를 목표로 동아리 퍼블리싱 멘토링 및 튜터링 운영.</p>
-          <div class="project-tags">
-            <span class="p-tag">TEAM LEADERSHIP</span><span class="p-tag">PUBLISHING MENTORING</span><span class="p-tag">PYTHON TUTORING</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a7">자세히 보기 →</button></div>
-        </article>
-
-
-
-        <!-- ── 활동 3: 창업캠프 ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a2">
-          <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">창업캠프 — 6G 요금제 기획</h3>
-          <p class="project-desc">창업동아리 창업캠프에서 6G 시대의 요금제 모델을 주제로 아이디어를 기획하고 발표.</p>
-          <div class="project-tags">
-            <span class="p-tag">창업 기획</span><span class="p-tag">서비스 설계</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a2">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 활동 4: 교육 봉사 ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a3">
-          <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">교육 봉사 &amp; 코딩 멘토링</h3>
-          <p class="project-desc">교육 봉사단 활동으로 청소년 대상 SW 키트 교육 진행. 코딩 멘토링 캠프에서 바이브 코딩 교육 담당.</p>
-          <div class="project-tags">
-            <span class="p-tag">교육</span><span class="p-tag">SW 교육</span><span class="p-tag">바이브 코딩</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a3">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 활동 5: 학술제 VR ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a4">
-          <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">단과대 학술제 — 착시 기반 몰입형 VR</h3>
-          <p class="project-desc">'착시 기반 몰입형 VR 게임 환경 구성'을 주제로 학술 연구 및 발표에 참여.</p>
-          <div class="project-tags">
-            <span class="p-tag">VR</span><span class="p-tag">게임 환경</span><span class="p-tag">착시</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a4">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 활동 6: 게임 경진대회 ── -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a5">
-          <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">게임개발 경진대회 — 최우수상 (MAYHEM)</h3>
-          <p class="project-desc">제2회 SW융합대학 학술제 게임개발 경진대회에 참여하여 최우수상을 수상했습니다. (작품명: MAYHEM)</p>
-          <div class="project-tags">
-            <span class="p-tag">게임 디자인</span><span class="p-tag">최우수상</span><span class="p-tag">아트</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a5">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 게임 1: 사용금지 ── -->
-        <article class="project-card reveal" data-category="game" data-modal-id="modal-g1">
-          <div class="project-card-header">
-            <span class="project-status released-badge">출시</span>
-            <span class="project-year">2024</span>
-          </div>
-          <h3 class="project-title">사용금지 : 괴담사이트</h3>
-          <p class="project-desc">귀신들의 교실에서 인간임을 숨긴 채 4교시를 버텨내는 한국풍 심리 공포 게임.</p>
-          <div class="project-tags">
-            <span class="p-tag">아날로그 호러</span><span class="p-tag">웹코어</span><span class="p-tag">심리적 공포</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g1">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 게임 2: 심해열차 ── -->
-        <article class="project-card reveal" data-category="game" data-modal-id="modal-g2">
-          <div class="project-card-header">
-            <span class="project-status game-badge">기획</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">심해열차 深海列車</h3>
-          <p class="project-desc">수면 위 세계가 멸망한 아포칼립스. 열차를 타고 심해와 수면 위 도시를 오가며 생존하는 이야기.</p>
-          <div class="project-tags">
-            <span class="p-tag">아포칼립스</span><span class="p-tag">SF</span><span class="p-tag">시뮬레이터</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g2">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 게임 3: 좀비꽃 ── -->
-        <article class="project-card reveal" data-category="game" data-modal-id="modal-g3">
-          <div class="project-card-header">
-            <span class="project-status game-badge">기획</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">좀비꽃이 피었습니다 (Blooming Apocalypse)</h3>
-          <p class="project-desc">양파 실험으로 탄생한 개화좀비. 폭주를 막고 실험실 파괴를 저지하라.</p>
-          <div class="project-tags">
-            <span class="p-tag">2D 사이드뷰</span><span class="p-tag">비대칭 협동</span><span class="p-tag">내러티브 호러</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g3">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 게임 4: PHOBIA/THERAPY ── -->
-        <article class="project-card reveal" data-category="game" data-modal-id="modal-g4">
-          <div class="project-card-header">
-            <span class="project-status game-badge">기획</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">PHOBIA/THERAPY (공포증 치료 센터)</h3>
-          <p class="project-desc">희귀한 공포증을 가진 환자들의 무의식에 침투하여 치료하십시오. 만약 실패한다면…</p>
-          <div class="project-tags">
-            <span class="p-tag">심리 공포</span><span class="p-tag">비주얼 노벨</span><span class="p-tag">쯔꾸르</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g4">자세히 보기 →</button></div>
-        </article>
-
-        <!-- ── 예정 1: 발빠진 쥐 ── -->
-        <article class="project-card upcoming-card reveal" data-category="upcoming" data-modal-id="modal-u1">
-          <div class="project-card-header">
-            <span class="project-status upcoming-badge">예정</span>
-            <span class="project-year">2025–</span>
-          </div>
-          <h3 class="project-title">발빠진 쥐</h3>
-          <p class="project-desc">이번 역은 OO역입니다. 쥐가 되어 역을 지나 보금자리로 돌아가는 3D 시뮬레이터.</p>
-          <div class="project-tags">
-            <span class="p-tag">3D</span><span class="p-tag">시뮬레이터</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-u1">구상 보기 →</button></div>
-        </article>
-
-        <!-- ── 예정 2: 휴먼 시뮬레이터 ── -->
-        <article class="project-card upcoming-card reveal" data-category="upcoming" data-modal-id="modal-u2">
-          <div class="project-card-header">
-            <span class="project-status upcoming-badge">예정</span>
-            <span class="project-year">2025–</span>
-          </div>
-          <h3 class="project-title">휴먼 시뮬레이터</h3>
-          <p class="project-desc">현실에서 이룰 수 없는 다양한 실험을 사람에게 적용해보세요.</p>
-          <div class="project-tags">
-            <span class="p-tag">인간 시뮬레이터</span><span class="p-tag">실험</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-u2">구상 보기 →</button></div>
-        </article>
-
-      </div>
+      </article>
     </div>
   </section>
 
@@ -362,10 +171,223 @@
       </div>
     </div>
   </section>
+  </main>
+
+  <!-- ═══════════════════ VIEW: 학교 활동 ═══════════════════ -->
+  <main class="view" id="view-school" data-view="school">
+    <section class="projects section">
+      <div class="container">
+        <div class="section-label reveal">School</div>
+        <h2 class="section-title reveal">학교 <em>활동</em></h2>
+        <p class="view-intro reveal">멘토링, 동아리 운영, 학술제와 경진대회까지 — 학교에서 쌓아온 활동 기록.</p>
+        <div class="projects-grid">
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a1">
+          <div class="project-card-header">
+            <span class="project-status ongoing">진행 중</span>
+            <span class="project-year">2025–</span>
+          </div>
+          <h3 class="project-title">SRC 멘토링</h3>
+          <p class="project-desc">신입생을 대상으로 개별·단체 멘토링 활동을 기획하고 운영 중.</p>
+          <div class="project-tags">
+            <span class="p-tag">멘토링</span><span class="p-tag">기획·운영</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a1">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a6">
+          <div class="project-card-header">
+            <span class="project-status ongoing">진행 중</span>
+            <span class="project-year">2025–</span>
+          </div>
+          <h3 class="project-title">SHC 드림멘토</h3>
+          <p class="project-desc">진로체험버스·오픈유니버시티를 운영하며 고등학생을 대상으로 학과 멘토링 진행 중.</p>
+          <div class="project-tags">
+            <span class="p-tag">진로 멘토링</span><span class="p-tag">진로체험버스</span><span class="p-tag">오픈유니버시티</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a6">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a7">
+          <div class="project-card-header">
+            <span class="project-status ongoing">진행 중</span>
+            <span class="project-year">2026–</span>
+          </div>
+          <h3 class="project-title">HMBG 햄부기 게임개발동아리</h3>
+          <p class="project-desc">학과 게임개발동아리 운영진(Club President). 실제 출시를 목표로 동아리 퍼블리싱 멘토링 및 튜터링 운영.</p>
+          <div class="project-tags">
+            <span class="p-tag">TEAM LEADERSHIP</span><span class="p-tag">PUBLISHING MENTORING</span><span class="p-tag">PYTHON TUTORING</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a7">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a2">
+          <div class="project-card-header">
+            <span class="project-status activity-badge">활동</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">창업캠프 — 6G 요금제 기획</h3>
+          <p class="project-desc">창업동아리 창업캠프에서 6G 시대의 요금제 모델을 주제로 아이디어를 기획하고 발표.</p>
+          <div class="project-tags">
+            <span class="p-tag">창업 기획</span><span class="p-tag">서비스 설계</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a2">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a3">
+          <div class="project-card-header">
+            <span class="project-status activity-badge">활동</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">교육 봉사 &amp; 코딩 멘토링</h3>
+          <p class="project-desc">교육 봉사단 활동으로 청소년 대상 SW 키트 교육 진행. 코딩 멘토링 캠프에서 바이브 코딩 교육 담당.</p>
+          <div class="project-tags">
+            <span class="p-tag">교육</span><span class="p-tag">SW 교육</span><span class="p-tag">바이브 코딩</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a3">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a4">
+          <div class="project-card-header">
+            <span class="project-status activity-badge">활동</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">단과대 학술제 — 착시 기반 몰입형 VR</h3>
+          <p class="project-desc">'착시 기반 몰입형 VR 게임 환경 구성'을 주제로 학술 연구 및 발표에 참여.</p>
+          <div class="project-tags">
+            <span class="p-tag">VR</span><span class="p-tag">게임 환경</span><span class="p-tag">착시</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a4">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a5">
+          <div class="project-card-header">
+            <span class="project-status activity-badge">활동</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">게임개발 경진대회 — 최우수상 (MAYHEM)</h3>
+          <p class="project-desc">제2회 SW융합대학 학술제 게임개발 경진대회에 참여하여 최우수상을 수상했습니다. (작품명: MAYHEM)</p>
+          <div class="project-tags">
+            <span class="p-tag">게임 디자인</span><span class="p-tag">최우수상</span><span class="p-tag">아트</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a5">자세히 보기 →</button></div>
+        </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════ VIEW: 게임 활동 ═══════════════════ -->
+  <main class="view" id="view-game" data-view="game">
+    <section class="projects section">
+      <div class="container">
+        <div class="view-head">
+          <div class="view-head-text">
+            <div class="section-label reveal">Game</div>
+            <h2 class="section-title reveal">게임 <em>활동</em></h2>
+            <p class="view-intro reveal">직접 기획하고 만든 게임들, 그리고 구상 중인 다음 이야기.</p>
+          </div>
+          <article class="win roeppi-win is-min reveal">
+            <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">roeppi_studio.exe</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
+            <div class="win-body roeppi-body">
+              <h3 class="roeppi-name">Roeppi Studio</h3>
+              <p class="roeppi-desc">함께 만든 게임을 소개하는 스튜디오.</p>
+            </div>
+          </article>
+        </div>
+        <div class="project-filter reveal">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="game">진행 중</button>
+          <button class="filter-btn" data-filter="upcoming">예정</button>
+        </div>
+        <div class="projects-grid">
+        <article class="project-card reveal" data-category="game" data-modal-id="modal-g1">
+          <div class="project-card-header">
+            <span class="project-status released-badge">데모 출시 · 개발 중</span>
+            <span class="project-year">2024</span>
+          </div>
+          <h3 class="project-title">사용금지 : 괴담사이트</h3>
+          <p class="project-desc">귀신들의 교실에서 인간임을 숨긴 채 4교시를 버텨내는 한국풍 심리 공포 게임.</p>
+          <div class="project-tags">
+            <span class="p-tag">아날로그 호러</span><span class="p-tag">웹코어</span><span class="p-tag">심리적 공포</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-g1">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="game" data-modal-id="modal-g2">
+          <div class="project-card-header">
+            <span class="project-status game-badge">기획</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">심해열차 深海列車</h3>
+          <p class="project-desc">수면 위 세계가 멸망한 아포칼립스. 열차를 타고 심해와 수면 위 도시를 오가며 생존하는 이야기.</p>
+          <div class="project-tags">
+            <span class="p-tag">아포칼립스</span><span class="p-tag">SF</span><span class="p-tag">시뮬레이터</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-g2">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="game" data-modal-id="modal-g3">
+          <div class="project-card-header">
+            <span class="project-status game-badge">기획</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">좀비꽃이 피었습니다 (Blooming Apocalypse)</h3>
+          <p class="project-desc">양파 실험으로 탄생한 개화좀비. 폭주를 막고 실험실 파괴를 저지하라.</p>
+          <div class="project-tags">
+            <span class="p-tag">2D 사이드뷰</span><span class="p-tag">비대칭 협동</span><span class="p-tag">내러티브 호러</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-g3">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card reveal" data-category="game" data-modal-id="modal-g4">
+          <div class="project-card-header">
+            <span class="project-status ongoing">개발 중</span>
+            <span class="project-year">2025–</span>
+          </div>
+          <h3 class="project-title">PHOBIA/THERAPY (공포증 치료 센터)</h3>
+          <p class="project-desc">희귀한 공포증을 가진 환자들의 무의식에 침투하여 치료하십시오. 만약 실패한다면…</p>
+          <div class="project-tags">
+            <span class="p-tag">심리 공포</span><span class="p-tag">비주얼 노벨</span><span class="p-tag">쯔꾸르</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-g4">자세히 보기 →</button></div>
+        </article>
+
+        <article class="project-card upcoming-card reveal" data-category="upcoming" data-modal-id="modal-u1">
+          <div class="project-card-header">
+            <span class="project-status upcoming-badge">예정</span>
+            <span class="project-year">2025–</span>
+          </div>
+          <h3 class="project-title">발빠진 쥐</h3>
+          <p class="project-desc">이번 역은 OO역입니다. 쥐가 되어 역을 지나 보금자리로 돌아가는 3D 시뮬레이터.</p>
+          <div class="project-tags">
+            <span class="p-tag">3D</span><span class="p-tag">시뮬레이터</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-u1">구상 보기 →</button></div>
+        </article>
+
+        <article class="project-card upcoming-card reveal" data-category="upcoming" data-modal-id="modal-u2">
+          <div class="project-card-header">
+            <span class="project-status upcoming-badge">예정</span>
+            <span class="project-year">2025–</span>
+          </div>
+          <h3 class="project-title">휴먼 시뮬레이터</h3>
+          <p class="project-desc">현실에서 이룰 수 없는 다양한 실험을 사람에게 적용해보세요.</p>
+          <div class="project-tags">
+            <span class="p-tag">인간 시뮬레이터</span><span class="p-tag">실험</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-u2">구상 보기 →</button></div>
+        </article>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- ═══════════════════ CONTACT ═══════════════════ -->
+  <main class="view" id="view-contact" data-view="contact">
   <section id="contact" class="contact-section section">
     <div class="container">
+      <div class="section-label reveal">Contact</div>
+      <h2 class="section-title reveal">연락 <em>하기</em></h2>
       <div class="contact-simple reveal">
         <div class="contact-simple-top">
           <p class="contact-greeting">함께 만들어가고 싶은 게 있다면, 편하게 연락주세요.</p>
@@ -389,12 +411,13 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ═══════════════════ FOOTER ═══════════════════ -->
   <footer class="footer">
     <div class="footer-inner">
-      <span class="footer-copy">© 2025 김보민. All rights reserved.</span>
-      <div class="footer-links"><a href="#hero">Top ↑</a></div>
+      <span class="footer-copy">© 2026 김보민. All rights reserved.</span>
+      <div class="footer-links"><a href="#" id="toTop">Top ↑</a></div>
     </div>
   </footer>
 
@@ -512,7 +535,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <button class="modal-close" data-close="modal-a3" aria-label="닫기">✕</button>
-        <div class="modal-status-row"><span class="project-status activity-badge">활동</span><span class="project-year">2024</span></div>
+        <div class="modal-status-row"><span class="project-status activity-badge">활동</span><span class="project-year">2025</span></div>
         <h2 class="modal-title" id="modal-a3-title">교육 봉사 &amp; 코딩 멘토링</h2>
         <p class="modal-subtitle">청소년 대상 SW 교육 &amp; 바이브 코딩 캠프</p>
       </div>
@@ -534,7 +557,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <button class="modal-close" data-close="modal-a4" aria-label="닫기">✕</button>
-        <div class="modal-status-row"><span class="project-status activity-badge">활동</span><span class="project-year">2024</span></div>
+        <div class="modal-status-row"><span class="project-status activity-badge">활동</span><span class="project-year">2025</span></div>
         <h2 class="modal-title" id="modal-a4-title">단과대 학술제 — 착시 기반 몰입형 VR</h2>
         <p class="modal-subtitle">착시 기반 몰입형 VR 게임 환경 구성</p>
       </div>
@@ -580,10 +603,10 @@
         </div>
         <div class="modal-divider"></div>
         <div><p class="modal-section-label">기획적 문제 해결 (Problem Solving)</p>
-          <ul class="modal-desc" style="list-style: disc; margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+          <ul class="modal-desc modal-list">
             <li><strong>[문제 상황]</strong> 단순 킬 카운트 방식의 점수 획득 구조는 플레이어에게 전략적인 행동을 유도하지 못해 게임이 다소 단조롭게 느껴졌습니다.</li>
             <li><strong>[해결 방안]</strong> 기존의 단순 킬 카운트 대신, 위험을 감수할수록 높은 보상을 얻는 <strong>스타일 점수 공식</strong>을 설계했습니다.
-              <code style="display: block; background: var(--surface); padding: 8px 12px; border-radius: var(--radius-sm); margin-top: 6px; font-family: monospace; font-size: 0.85rem; color: var(--rose-600);">
+              <code class="modal-formula">
                 점수 = 킬 수 + ∑(멀티킬 수 - 1) × 스타일 점수
               </code>
               이를 통해 플레이어가 고위험 플레이(멀티킬 및 화려한 스타일 연계)를 전략적으로 시도하도록 유도하고, 물리 기반 이동 시스템과의 시너지를 창출하여 긴장감 넘치는 플레이를 구현했습니다. 이 설계는 심사위원들로부터 극찬을 받았습니다.
@@ -608,7 +631,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <button class="modal-close" data-close="modal-g1" aria-label="닫기">✕</button>
-        <div class="modal-status-row"><span class="project-status released-badge">출시</span><span class="project-year">2024</span></div>
+        <div class="modal-status-row"><span class="project-status released-badge">데모 출시 · 개발 중</span><span class="project-year">2024</span></div>
         <h2 class="modal-title" id="modal-g1-title">사용금지 : 괴담사이트</h2>
         <p class="modal-subtitle">Do Not Access</p>
       </div>
@@ -687,7 +710,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <button class="modal-close" data-close="modal-g4" aria-label="닫기">✕</button>
-        <div class="modal-status-row"><span class="project-status game-badge">기획</span><span class="project-year">2025</span></div>
+        <div class="modal-status-row"><span class="project-status ongoing">개발 중</span><span class="project-year">2025–</span></div>
         <h2 class="modal-title" id="modal-g4-title">PHOBIA/THERAPY (공포증 치료 센터)</h2>
         <p class="modal-subtitle">공포증 치료 센터</p>
       </div>
