@@ -43,28 +43,32 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObserver.observe(el));
 
-/* ── 3. Project Filter ── */
-const filterBtns = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('#view-game .project-card');
+/* ── 3. Project Filter (Game: by card category, School: by group) ── */
+document.querySelectorAll('.project-filter').forEach((bar) => {
+  const view = bar.closest('.view');
+  const btns = bar.querySelectorAll('.filter-btn');
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    // Update active state
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filter = btn.dataset.filter;
-
-    projectCards.forEach(card => {
-      if (filter === 'all' || card.dataset.category === filter) {
-        card.classList.remove('hidden');
-        // Re-trigger reveal if needed
-        if (!card.classList.contains('visible')) {
-          card.classList.add('visible');
-        }
-      } else {
-        card.classList.add('hidden');
+      if (view && view.id === 'view-school') {
+        view.querySelectorAll('.school-group').forEach((g) => {
+          g.hidden = !(filter === 'all' || g.dataset.group === filter);
+        });
+        view.querySelectorAll('.school-group:not([hidden]) .project-card').forEach((c) => c.classList.add('visible'));
+        return;
       }
+
+      view.querySelectorAll('.project-card').forEach((card) => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+          if (!card.classList.contains('visible')) card.classList.add('visible');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
     });
   });
 });
@@ -462,8 +466,7 @@ function yearOf(card) {
   return m ? parseInt(m[0], 10) : 0;
 }
 
-const schoolGrid = document.querySelector('#view-school .projects-grid');
-if (schoolGrid) {
+document.querySelectorAll('#view-school .projects-grid').forEach((schoolGrid) => {
   const items = [...schoolGrid.querySelectorAll('.project-card')]
     .map((card, i) => ({ card, i, ongoing: card.querySelector('.project-status.ongoing') ? 1 : 0, year: yearOf(card) }))
     .sort((a, b) => b.year - a.year || b.ongoing - a.ongoing || a.i - b.i);
@@ -473,12 +476,12 @@ if (schoolGrid) {
       current = year;
       const h = document.createElement('h3');
       h.className = 'year-heading';
-      h.textContent = year ? String(year) : 'High school';
+      h.textContent = year ? String(year) : 'Earlier';
       schoolGrid.appendChild(h);
     }
     schoolGrid.appendChild(card);
   });
-}
+});
 
 
 /* ── 10. Sound player (CD): small synthesized click sounds, off by default ──
@@ -833,5 +836,46 @@ if (schoolGrid) {
   document.addEventListener('click', (e) => {
     if (busy) return;
     shoot(e.clientX, e.clientY);
+  });
+})();
+
+
+/* ── 12. Typed headings: a few titles appear letter by letter (only those marked data-type) ── */
+(function () {
+  const els = document.querySelectorAll('[data-type]');
+  if (!els.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  els.forEach((el) => {
+    const label = el.textContent.replace(/\s+/g, ' ').trim();
+    el.setAttribute('aria-label', label);
+    if (reduce) return;
+    let i = 0;
+    const walk = (node) => {
+      [...node.childNodes].forEach((c) => {
+        if (c.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          [...c.textContent.replace(/\s+/g, ' ')].forEach((ch) => {
+            if (ch === ' ') { frag.appendChild(document.createTextNode(' ')); return; }
+            const s = document.createElement('span');
+            s.className = 'tw'; s.setAttribute('aria-hidden', 'true');
+            s.style.transitionDelay = (i++ * 55) + 'ms';
+            s.textContent = ch;
+            frag.appendChild(s);
+          });
+          node.replaceChild(frag, c);
+        } else if (c.nodeType === 1 && !c.classList.contains('tw')) {
+          walk(c);
+        }
+      });
+    };
+    walk(el);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        en.target.querySelectorAll('.tw').forEach((s) => s.classList.add('on'));
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.4 });
+    io.observe(el);
   });
 })();

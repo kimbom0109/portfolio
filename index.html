@@ -128,7 +128,7 @@
         <div class="win-bar"><span class="win-dots"><i></i><i></i><i></i></span><span class="win-title">about.txt</span><span class="win-btns"><b>–</b><b>□</b><b>×</b></span></div>
         <div class="win-body">
           <div class="section-label">About Me</div>
-          <h2 class="section-title">
+          <h2 class="section-title" data-type>
             <em>기획자이자 디자이너</em> 김보민입니다.
           </h2>
           <p class="about-desc">
@@ -218,33 +218,14 @@
         <div class="section-label reveal">School</div>
         <h2 class="section-title reveal">School <em>Activities</em></h2>
         <p class="view-intro reveal">멘토링, 동아리, 창업, 콘텐츠 제작까지 — 학교에서 쌓아온 활동 기록.</p>
-        <div class="projects-grid">
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a1">
-          <div class="project-card-header">
-            <span class="project-status ongoing">진행 중</span>
-            <span class="project-year">2025–</span>
-          </div>
-          <h3 class="project-title">SRC 멘토링</h3>
-          <p class="project-desc">신입생을 대상으로 개별·단체 멘토링 활동을 기획하고 운영 중.</p>
-          <div class="project-tags">
-            <span class="p-tag">멘토링</span><span class="p-tag">기획·운영</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a1">자세히 보기 →</button></div>
-        </article>
-
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a6">
-          <div class="project-card-header">
-            <span class="project-status ongoing">진행 중</span>
-            <span class="project-year">2025–</span>
-          </div>
-          <h3 class="project-title">SHC 드림멘토</h3>
-          <p class="project-desc">진로체험버스·오픈유니버시티를 운영하며 고등학생을 대상으로 학과 멘토링 진행 중.</p>
-          <div class="project-tags">
-            <span class="p-tag">진로 멘토링</span><span class="p-tag">진로체험버스</span><span class="p-tag">오픈유니버시티</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a6">자세히 보기 →</button></div>
-        </article>
-
+        <div class="project-filter reveal">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="dept">학과 활동</button>
+          <button class="filter-btn" data-filter="outside">대외활동</button>
+        </div>
+        <div class="school-group" data-group="dept">
+          <h3 class="group-title">학과 활동 <span>Department</span></h3>
+        <div class="projects-grid" id="schoolDept">
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a7">
           <div class="project-card-header">
             <span class="project-status ongoing">진행 중</span>
@@ -255,35 +236,20 @@
           <div class="project-tags">
             <span class="p-tag">TEAM LEADERSHIP</span><span class="p-tag">PUBLISHING MENTORING</span><span class="p-tag">PYTHON TUTORING</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a7">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a7">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a2">
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a1">
           <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">2025</span>
+            <span class="project-status ongoing">진행 중</span>
+            <span class="project-year">2025–</span>
           </div>
-          <h3 class="project-title">창업캠프 — 6G 요금제 기획</h3>
-          <p class="project-desc">창업동아리 창업캠프에서 6G 시대의 요금제 모델을 주제로 아이디어를 기획하고 발표.</p>
+          <h3 class="project-title">SRC 멘토링</h3>
+          <p class="project-desc">신입생을 대상으로 개별·단체 멘토링 활동을 기획하고 운영 중.</p>
           <div class="project-tags">
-            <span class="p-tag">창업 기획</span><span class="p-tag">서비스 설계</span>
+            <span class="p-tag">멘토링</span><span class="p-tag">기획·운영</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a2">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a1">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a3">
-          <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">2025</span>
-          </div>
-          <h3 class="project-title">SW 교육봉사단</h3>
-          <p class="project-desc">SW 교육봉사단으로 청소년 대상 SW 키트 교육을 진행하고, 코딩 멘토링 캠프에서 바이브 코딩 교육을 담당.</p>
-          <div class="project-tags">
-            <span class="p-tag">교육</span><span class="p-tag">SW 교육</span><span class="p-tag">바이브 코딩</span>
-          </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a3">자세히 보기 →</button></div>
-        </article>
-
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a4">
           <div class="project-card-header">
             <span class="project-status activity-badge">활동</span>
@@ -294,9 +260,8 @@
           <div class="project-tags">
             <span class="p-tag">VR</span><span class="p-tag">게임 환경</span><span class="p-tag">착시</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a4">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a4">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a5">
           <div class="project-card-header">
             <span class="project-status activity-badge">활동</span>
@@ -307,9 +272,49 @@
           <div class="project-tags">
             <span class="p-tag">게임 디자인</span><span class="p-tag">최우수상</span><span class="p-tag">아트</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-a5">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a5">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
+        </div>
+        </div>
+        <div class="school-group" data-group="outside">
+          <h3 class="group-title">대외활동 <span>Outside</span></h3>
+        <div class="projects-grid" id="schoolOutside">
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a6">
+          <div class="project-card-header">
+            <span class="project-status ongoing">진행 중</span>
+            <span class="project-year">2025–</span>
+          </div>
+          <h3 class="project-title">SHC 드림멘토</h3>
+          <p class="project-desc">진로체험버스·오픈유니버시티를 운영하며 고등학생을 대상으로 학과 멘토링 진행 중.</p>
+          <div class="project-tags">
+            <span class="p-tag">진로 멘토링</span><span class="p-tag">진로체험버스</span><span class="p-tag">오픈유니버시티</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a6">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
+        </article>
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a2">
+          <div class="project-card-header">
+            <span class="project-status activity-badge">활동</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">창업캠프 — 6G 요금제 기획</h3>
+          <p class="project-desc">창업동아리 창업캠프에서 6G 시대의 요금제 모델을 주제로 아이디어를 기획하고 발표.</p>
+          <div class="project-tags">
+            <span class="p-tag">창업 기획</span><span class="p-tag">서비스 설계</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a2">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
+        </article>
+        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a3">
+          <div class="project-card-header">
+            <span class="project-status activity-badge">활동</span>
+            <span class="project-year">2025</span>
+          </div>
+          <h3 class="project-title">SW 교육봉사단 1기</h3>
+          <p class="project-desc">SW 교육봉사단으로 청소년 대상 SW 키트 교육을 진행하고, 코딩 멘토링 캠프에서 바이브 코딩 교육을 담당.</p>
+          <div class="project-tags">
+            <span class="p-tag">교육</span><span class="p-tag">SW 교육</span><span class="p-tag">바이브 코딩</span>
+          </div>
+          <div class="project-links"><button class="project-link" data-open="modal-a3">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
+        </article>
         <!-- 활동: 또래멘토 (제17기) -->
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a8">
           <div class="project-card-header">
@@ -319,9 +324,8 @@
           <h3 class="project-title">또래멘토 (제17기)</h3>
           <p class="project-desc">교내 또래상담 프로그램 제17기 멘토로 활동하며 배정받은 멘티와 멘토링을 진행하고 활동일지를 기록.</p>
           <div class="project-tags"><span class="p-tag">또래상담</span><span class="p-tag">멘토링</span><span class="p-tag">활동일지</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a8">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a8">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
         <!-- 활동: 슈케터 홍보대사 (25기) -->
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a11">
           <div class="project-card-header">
@@ -331,9 +335,8 @@
           <h3 class="project-title">슈케터 홍보대사 (25기)</h3>
           <p class="project-desc">재학생 홍보대사 슈케터 25기로 학교 콘텐츠 1팀에서 콘텐츠를 기획하고 영상과 카드뉴스를 제작.</p>
           <div class="project-tags"><span class="p-tag">콘텐츠 기획</span><span class="p-tag">영상 편집</span><span class="p-tag">카드뉴스</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a11">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a11">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
         <!-- 활동: 아산시 미디어 기자단 -->
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a12">
           <div class="project-card-header">
@@ -343,9 +346,8 @@
           <h3 class="project-title">아산시 미디어 기자단</h3>
           <p class="project-desc">아산시 농촌공동체 지원인력 양성 미디어 기자단으로 활동하며 홍보 포스터와 카드뉴스를 제작.</p>
           <div class="project-tags"><span class="p-tag">미디어</span><span class="p-tag">포스터</span><span class="p-tag">카드뉴스</span><span class="p-tag">영상 편집</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a12">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a12">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
         <!-- 활동: 창업동아리 CareerDive -->
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a9">
           <div class="project-card-header">
@@ -355,9 +357,8 @@
           <h3 class="project-title">창업동아리 CareerDive</h3>
           <p class="project-desc">SW창업동아리에 'CareerDive' 팀으로 신청해 창업 아이템을 기획하고 발표자료를 작성.</p>
           <div class="project-tags"><span class="p-tag">창업 기획</span><span class="p-tag">사업계획서</span><span class="p-tag">발표</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a9">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a9">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
         <!-- 활동: 메가시티 리그전 -->
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a10">
           <div class="project-card-header">
@@ -367,32 +368,20 @@
           <h3 class="project-title">메가시티 리그전</h3>
           <p class="project-desc">2026 도전 메가시티 리그전에 참여해 시장조사와 경쟁사 분석, 3개년 마일스톤을 정리.</p>
           <div class="project-tags"><span class="p-tag">시장조사</span><span class="p-tag">경쟁사 분석</span><span class="p-tag">사업계획서</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a10">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a10">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
-
-        <!-- 활동: '도파민 디톡스' 수업 -->
-        <article class="project-card reveal" data-category="activity" data-modal-id="modal-a13">
-          <div class="project-card-header">
-            <span class="project-status activity-badge">활동</span>
-            <span class="project-year">고교</span>
-          </div>
-          <h3 class="project-title">'도파민 디톡스' 수업</h3>
-          <p class="project-desc">고등학교 재학 중 수업 주제를 직접 정해 연구하고 전교생 앞에서 발표한 뒤, 또래 학생 대상 수업을 두 차례 진행.</p>
-          <div class="project-tags"><span class="p-tag">수업 기획</span><span class="p-tag">발표</span><span class="p-tag">또래 교육</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a13">자세히 보기 →</button></div>
-        </article>
-
         <!-- 활동: SW 교육봉사단 -->
         <article class="project-card reveal" data-category="activity" data-modal-id="modal-a14">
           <div class="project-card-header">
             <span class="project-status ongoing">진행 중</span>
             <span class="project-year">2026–</span>
           </div>
-          <h3 class="project-title">SW 교육봉사단</h3>
+          <h3 class="project-title">SW 교육봉사단 2기</h3>
           <p class="project-desc">2025년 활동에 이어 2026년에도 SW 교육봉사단에 지원해 선발됨. 청소년 대상 SW 교육 봉사를 이어서 참여.</p>
           <div class="project-tags"><span class="p-tag">교육 봉사</span><span class="p-tag">SW 교육</span><span class="p-tag">2년 연속 선발</span></div>
-          <div class="project-links"><button class="project-link" data-open="modal-a14">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-a14">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
+        </div>
         </div>
       </div>
     </section>
@@ -413,7 +402,7 @@
             <div class="win-body roeppi-body">
               <h3 class="roeppi-name">Roeppi Studio</h3>
               <p class="roeppi-desc">함께 만든 게임을 소개하는 스튜디오.</p>
-              <p class="roeppi-go">사이트로 이동 →</p>
+              <p class="roeppi-go">사이트로 이동 <span class="arr" aria-hidden="true">→</span></p>
             </div>
           </article>
         </div>
@@ -435,7 +424,7 @@
           <div class="project-tags">
             <span class="p-tag">아날로그 호러</span><span class="p-tag">웹코어</span><span class="p-tag">심리적 공포</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g1">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-g1">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
 
         <article class="project-card reveal" data-category="game" data-modal-id="modal-g2">
@@ -448,7 +437,7 @@
           <div class="project-tags">
             <span class="p-tag">아포칼립스</span><span class="p-tag">SF</span><span class="p-tag">시뮬레이터</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g2">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-g2">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
 
         <article class="project-card reveal" data-category="game" data-modal-id="modal-g3">
@@ -461,7 +450,7 @@
           <div class="project-tags">
             <span class="p-tag">2D 사이드뷰</span><span class="p-tag">비대칭 협동</span><span class="p-tag">내러티브 호러</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g3">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-g3">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
 
         <article class="project-card reveal" data-category="game" data-modal-id="modal-g4">
@@ -474,7 +463,7 @@
           <div class="project-tags">
             <span class="p-tag">심리 공포</span><span class="p-tag">비주얼 노벨</span><span class="p-tag">쯔꾸르</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-g4">자세히 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-g4">자세히 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
 
         <article class="project-card upcoming-card reveal" data-category="upcoming" data-modal-id="modal-u1">
@@ -487,7 +476,7 @@
           <div class="project-tags">
             <span class="p-tag">3D</span><span class="p-tag">시뮬레이터</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-u1">구상 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-u1">구상 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
 
         <article class="project-card upcoming-card reveal" data-category="upcoming" data-modal-id="modal-u2">
@@ -500,7 +489,7 @@
           <div class="project-tags">
             <span class="p-tag">인간 시뮬레이터</span><span class="p-tag">실험</span>
           </div>
-          <div class="project-links"><button class="project-link" data-open="modal-u2">구상 보기 →</button></div>
+          <div class="project-links"><button class="project-link" data-open="modal-u2">구상 보기 <span class="arr" aria-hidden="true">→</span></button></div>
         </article>
         </div>
       </div>
@@ -512,7 +501,7 @@
   <section id="contact" class="contact-section section">
     <div class="container">
       <div class="section-label reveal">Contact</div>
-      <h2 class="section-title reveal">Get in <em>touch</em></h2>
+      <h2 class="section-title reveal" data-type>Get in <em>touch</em></h2>
       <p class="view-intro reveal">함께 만들어가고 싶은 게 있다면, 편하게 연락주세요.</p>
       <div class="contact-simple reveal">
         <div class="contact-links-row">
@@ -659,7 +648,7 @@
       <div class="modal-header">
         <button class="modal-close" data-close="modal-a3" aria-label="닫기">✕</button>
         <div class="modal-status-row"><span class="project-status activity-badge">활동</span><span class="project-year">2025</span></div>
-        <h2 class="modal-title" id="modal-a3-title">SW 교육봉사단</h2>
+        <h2 class="modal-title" id="modal-a3-title">SW 교육봉사단 1기</h2>
         <p class="modal-subtitle">청소년 대상 SW 교육 &amp; 바이브 코딩 캠프</p>
       </div>
       <div class="modal-body">
@@ -859,35 +848,13 @@
     </div>
   </div>
 
-  <!-- 활동: '도파민 디톡스' 수업 -->
-  <div class="modal-overlay" id="modal-a13" role="dialog" aria-modal="true" aria-labelledby="modal-a13-title">
-    <div class="modal-box">
-      <div class="modal-header">
-        <button class="modal-close" data-close="modal-a13" aria-label="닫기">✕</button>
-        <div class="modal-status-row"><span class="project-status activity-badge">활동</span><span class="project-year">고교</span></div>
-        <h2 class="modal-title" id="modal-a13-title">'도파민 디톡스' 수업</h2>
-        <p class="modal-subtitle">고등학교 재학 중</p>
-      </div>
-      <div class="modal-body">
-        <div class="modal-divider"></div>
-        <div><p class="modal-section-label">Overview</p>
-          <p class="modal-desc">고등학교에 재학하며 '도파민 디톡스'라는 수업 주제를 직접 정해 연구하고 전교생 앞에서 발표했습니다. 이후 그 주제로 다양한 활동을 곁들여 또래 학생들을 대상으로 수업을 두 차례 진행했습니다.</p>
-        </div>
-        <div class="modal-divider"></div>
-        <div><p class="modal-section-label">역할</p>
-          <div class="modal-tags"><span class="modal-tag">주제 연구</span><span class="modal-tag">전교생 발표</span><span class="modal-tag">또래 수업 진행</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- 활동: SW 교육봉사단 -->
   <div class="modal-overlay" id="modal-a14" role="dialog" aria-modal="true" aria-labelledby="modal-a14-title">
     <div class="modal-box">
       <div class="modal-header">
         <button class="modal-close" data-close="modal-a14" aria-label="닫기">✕</button>
         <div class="modal-status-row"><span class="project-status ongoing">진행 중</span><span class="project-year">2026–</span></div>
-        <h2 class="modal-title" id="modal-a14-title">SW 교육봉사단</h2>
+        <h2 class="modal-title" id="modal-a14-title">SW 교육봉사단 2기</h2>
         <p class="modal-subtitle">2025년에 이어 2026년 재선발</p>
       </div>
       <div class="modal-body">
