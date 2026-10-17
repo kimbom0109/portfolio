@@ -1457,3 +1457,7 @@ input.cd-vol { flex: 1; min-width: 0; }
 .school-group[hidden] { display: none; }
 /* with the filter chips, group titles are only needed when both groups are shown */
 .school-group:first-of-type { margin-top: 0; }
+
+/* logo is just the ribbon, centred in its button */
+.nav-logo { justify-content: center; align-items: center; gap: 0; padding: 0; }
+@media (max-width: 640px) { .nav-logo { padding: 0 10px; margin-right: auto; } }
