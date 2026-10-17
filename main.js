@@ -311,14 +311,62 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') unmax();
 });
 
+/* digital clock: seven-segment LCD digits (time only) */
 const navClock = document.getElementById('navClock');
+const SEGMENTS = {            // which of the segments a-g are lit for each digit
+  '0': 'abcdef', '1': 'bc', '2': 'abged', '3': 'abgcd', '4': 'fgbc',
+  '5': 'afgcd', '6': 'afgecd', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg'
+};
+const T = 2, DW = 10, DH = 18;                   // segment thickness, digit width and height (viewBox units)
+
+function hSeg(cy) {                              // horizontal segment with pointed ends
+  const x1 = 1.5, x2 = DW - 1.5, h = T / 2;
+  return `${x1},${cy} ${x1 + h},${cy - h} ${x2 - h},${cy - h} ${x2},${cy} ${x2 - h},${cy + h} ${x1 + h},${cy + h}`;
+}
+function vSeg(cx, y1, y2) {                      // vertical segment with pointed ends
+  const h = T / 2;
+  return `${cx},${y1} ${cx + h},${y1 + h} ${cx + h},${y2 - h} ${cx},${y2} ${cx - h},${y2 - h} ${cx - h},${y1 + h}`;
+}
+const SEG_SHAPES = {
+  a: hSeg(1), g: hSeg(DH / 2), d: hSeg(DH - 1),
+  f: vSeg(1, 1.5, DH / 2 - 0.5), b: vSeg(DW - 1, 1.5, DH / 2 - 0.5),
+  e: vSeg(1, DH / 2 + 0.5, DH - 1.5), c: vSeg(DW - 1, DH / 2 + 0.5, DH - 1.5)
+};
+
+function lcdSvg(text) {
+  let x = 0, shapes = '';
+  const gap = 2.4;
+  for (const ch of text) {
+    if (SEGMENTS[ch]) {
+      for (const [seg, pts] of Object.entries(SEG_SHAPES)) {
+        const on = SEGMENTS[ch].includes(seg);
+        shapes += `<polygon class="${on ? 'lcd-on' : 'lcd-off'}" points="${pts}" transform="translate(${x} 0)"/>`;
+      }
+      x += DW + gap;
+    } else if (ch === ':') {                     // two square dots, blinking
+      for (const cy of [5, 13]) {
+        shapes += `<rect class="lcd-on lcd-colon" x="${x}" y="${cy - 1}" width="2" height="2"/>`;
+      }
+      x += 2 + gap;
+    } else if (ch === '.') {                     // date separator: one square dot on the baseline
+      shapes += `<rect class="lcd-on" x="${x}" y="${DH - 2}" width="2" height="2"/>`;
+      x += 2 + gap;
+    } else {                                     // space between date and time
+      x += 5;
+    }
+  }
+  const w = x - gap, scale = 1.35;
+  return `<svg class="lcd" viewBox="0 0 ${w} ${DH}" width="${Math.round(w * scale)}" height="${Math.round(DH * scale)}" ` +
+         `aria-hidden="true">${shapes}</svg>`;
+}
+
 function tickClock() {
   const d = new Date();
   const pad = n => String(n).padStart(2, '0');
-  navClock.textContent = `${d.getMonth() + 1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  navClock.innerHTML = lcdSvg(`${pad(d.getHours())}:${pad(d.getMinutes())}`);
 }
 tickClock();
-setInterval(tickClock, 30000);
+setInterval(tickClock, 15000);
 
 document.getElementById('toTop').addEventListener('click', (e) => {
   e.preventDefault();
@@ -403,4 +451,31 @@ if (gameGrid) {
     .map((card, i) => ({ card, i, rank: stageOf(card) }))
     .sort((a, b) => b.rank - a.rank || a.i - b.i)
     .forEach(({ card }) => gameGrid.appendChild(card));
+}
+
+
+/* ── 9. School tab: grouped by year (newest first), in-progress items first inside each year ──
+   The year comes from each card's year label; cards with the same status keep their HTML order.
+   Cards whose label has no year (e.g. high school) go in a last group. */
+function yearOf(card) {
+  const m = (card.querySelector('.project-year') || {}).textContent.match(/\d{4}/);
+  return m ? parseInt(m[0], 10) : 0;
+}
+
+const schoolGrid = document.querySelector('#view-school .projects-grid');
+if (schoolGrid) {
+  const items = [...schoolGrid.querySelectorAll('.project-card')]
+    .map((card, i) => ({ card, i, ongoing: card.querySelector('.project-status.ongoing') ? 1 : 0, year: yearOf(card) }))
+    .sort((a, b) => b.year - a.year || b.ongoing - a.ongoing || a.i - b.i);
+  let current = null;
+  items.forEach(({ card, year }) => {
+    if (year !== current) {
+      current = year;
+      const h = document.createElement('h3');
+      h.className = 'year-heading';
+      h.textContent = year ? String(year) : 'High school';
+      schoolGrid.appendChild(h);
+    }
+    schoolGrid.appendChild(card);
+  });
 }

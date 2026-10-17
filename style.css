@@ -913,3 +913,142 @@ ul { list-style: none; }
 .roeppi-win .wb,
 .contact-simple .wb,
 .skill-block.wide .wb { background: #FFFAFB; }
+
+/* ─── Tabs: pixel icon on top, label underneath (taller tab bar) ─── */
+.navbar { height: 64px; }
+.nav-logo,
+.nav-links a {
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  height: 52px;
+  padding: 0 16px;
+  min-width: 78px;
+  line-height: 1.2;
+}
+.nav-logo { min-width: 64px; margin-right: 12px; }
+.nav-logo::before,
+.nav-links a::before { width: 20px; height: 15px; }
+.nav-clock { height: 40px; }
+.mobile-menu { top: 64px; }
+.desktop { padding-top: 128px; }
+.view:not(#view-home) > .section:first-child { padding-top: 124px; }
+
+@media (max-width: 640px) {
+  .navbar { height: 44px; }
+  /* in the short phone bar the logo stays on one line and the menu button sits on the right */
+  .nav-logo { flex-direction: row; gap: 7px; height: 30px; min-width: 0; padding: 0 12px 0 10px; margin-right: auto; }
+  .mobile-menu { top: 44px; }
+  .desktop { padding-top: 92px; }
+  .view:not(#view-home) > .section:first-child { padding-top: 104px; }
+}
+
+/* ─── Tabs: near-square buttons, bigger pixel icons ─── */
+.navbar { height: 88px; }
+.nav-logo,
+.nav-links a { width: 92px; height: 76px; min-width: 0; padding: 0 6px; gap: 6px; }
+.nav-logo { width: 76px; margin-right: 14px; }
+.nav-logo::before { width: 30px; height: 30px; }
+.nav-links a::before { width: 26px; height: 26px; }
+.nav-clock { height: 44px; }
+.win-bar::before { width: 17px; height: 17px; }
+.desktop { padding-top: 148px; }
+.view:not(#view-home) > .section:first-child { padding-top: 144px; }
+
+@media (max-width: 640px) {
+  .navbar { height: 44px; }
+  .nav-logo { flex-direction: row; gap: 7px; width: auto; height: 30px; padding: 0 12px 0 10px; margin-right: auto; }
+  .nav-logo::before { width: 20px; height: 20px; }
+  .mobile-menu { top: 44px; }
+  .desktop { padding-top: 92px; }
+  .view:not(#view-home) > .section:first-child { padding-top: 104px; }
+}
+
+/* ─── Ribbon icon is now wide (tails stream left and right) ─── */
+.nav-logo::before { width: 42px; height: 24px; }
+.win-bar::before { width: 21px; height: 12px; }
+
+@media (max-width: 640px) {
+  .nav-logo::before { width: 21px; height: 12px; }
+}
+
+/* ─── Slightly smaller tabs; the BM logo is flat (not a button) ─── */
+.navbar { height: 80px; }
+.nav-links a { width: 84px; height: 68px; }
+.nav-logo {
+  width: 72px;
+  height: 68px;
+  margin-right: 10px;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+.desktop { padding-top: 140px; }
+.view:not(#view-home) > .section:first-child { padding-top: 136px; }
+
+@media (max-width: 640px) {
+  .navbar { height: 44px; }
+  .nav-logo { width: auto; height: 30px; }
+  .desktop { padding-top: 92px; }
+  .view:not(#view-home) > .section:first-child { padding-top: 104px; }
+}
+
+/* no drag-selecting text and no dragging images */
+body { -webkit-user-select: none; user-select: none; }
+img { -webkit-user-drag: none; user-drag: none; }
+
+/* ─── Tab icons: 15x13 dot grids shown at 2x, so every dot is 2px — same as the ribbon in the logo ─── */
+.nav-links a::before { width: 30px; height: 26px; }
+
+/* ─── Graph-paper grid inside every window / popup (about 20% opacity, like squared paper) ─── */
+:root { --grid-line: rgba(140, 140, 160, 0.08); --grid-size: 14px; }
+.win,
+.project-card,
+.skill-block,
+.contact-simple,
+.modal-box {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) !important;
+  background-size: var(--grid-size) var(--grid-size) !important;
+}
+
+/* ─── Digital clock (dot-matrix LCD) ─── */
+.nav-clock {
+  flex-direction: column;
+  gap: 3px;
+  height: 52px;
+  min-width: 100px;
+  background: #FFFAFB;
+}
+.nav-clock .lcd { display: block; }
+.lcd-on  { fill: #D3AEBB; }
+.lcd-off { fill: rgba(211, 174, 187, 0.16); }
+.lcd-colon.lcd-on { animation: lcdBlink 1s steps(1) infinite; }
+.clock-date { font-family: var(--ff-pixel); font-size: 12px; line-height: 1; color: var(--gray-500); letter-spacing: 0.08em; }
+@keyframes lcdBlink { 50% { fill: rgba(211, 174, 187, 0.16); } }
+@media (prefers-reduced-motion: reduce) { .lcd-colon.lcd-on { animation: none; } }
+
+/* ─── Clock: date and time in one row ─── */
+.nav-clock { flex-direction: row; height: 44px; min-width: 0; padding: 0 14px; }
+@media (max-width: 760px) { .nav-clock { display: none; } }
+
+/* ─── Clock: time only, so a narrow tray ─── */
+.nav-clock { padding: 0 12px; }
+@media (max-width: 760px) { .nav-clock { display: inline-flex; } }
+@media (max-width: 640px) { .nav-clock { display: none; } }
+
+/* ─── Year headings in the School tab ─── */
+.year-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 -6px;
+  font-family: var(--ff-pixel);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.year-heading::after { content: ''; flex: 1; border-top: 2px dotted var(--pink-200); }
+.year-heading:first-child { margin-top: 0; }
